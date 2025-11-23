@@ -1,0 +1,12 @@
+# macOS system files
+.DS_Store
+
+# S2V files
+*.s2v
+
+# Build/output
+out/
+
+# JetBrains IDEs
+.idea/
+*.iml
