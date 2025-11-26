@@ -1,6 +1,5 @@
-package ExpressionHandler.Node;
+package ExpressionHandler.SpreadsheetNodes;
 
-import Cell.Cell;
 import Spreadsheet.Spreadsheet;
 
 public class CellNode implements Node {

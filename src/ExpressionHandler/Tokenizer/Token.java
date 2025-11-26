@@ -1,21 +1,22 @@
 package ExpressionHandler.Tokenizer;
 
 public class Token {
-    String value;
+    String text;
     TokenType type;
 
-    Token(TokenType type, String value) {
+    Token(TokenType type, String text) {
         this.type = type;
-        this.value = value;
+        this.text = text;
     }
 
     public String toString() {
-        return type + "('" + value + "')";
+        return type + "('" + text + "')";
     }
 
     public String getText() {
-        return value;
+        return text;
     }
+
     public TokenType getType() {
         return type;
     }

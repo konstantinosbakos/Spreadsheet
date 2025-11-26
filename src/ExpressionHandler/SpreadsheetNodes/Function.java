@@ -1,4 +1,4 @@
-package ExpressionHandler.Node;
+package ExpressionHandler.SpreadsheetNodes;
 
 import java.util.ArrayList;
 

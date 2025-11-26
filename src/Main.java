@@ -55,7 +55,7 @@ public class Main{
         System.out.println("|> 3: Get the value of a cell.| ");
         System.out.println("|> 4: Set the value of a cell.| ");
         System.out.println("|> 5: Empty a cell.           | ");
-        System.out.println("|> 6: Print the Spreadsheet.Spreadsheet.  | ");
+        System.out.println("|> 6: Print the Spreadsheet.  | ");
         System.out.println("|> 7: Exit Program.           | ");
         System.out.println("\\~~~~~~~~~~~~~~~~~~~~~~~~~~~~~/");
         System.out.print  ("> ");
@@ -89,7 +89,9 @@ public class Main{
         //Cell _ = spreadsheetController.editCell("Text", "B1", "5");
         String demoFormula = "=(1+-A1*-3/4*(B1)+(4*4*SUM(A1:G1)))";
         List<Token> tokenized = Tokenizer.tokenize(demoFormula);
+        System.out.println("`````");
         System.out.println(tokenized);
+        System.out.println("`````");
 
         int     choice = 0;
         boolean exit   = false;

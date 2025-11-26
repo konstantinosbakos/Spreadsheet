@@ -1,6 +1,6 @@
-package ExpressionHandler.Node;
+package ExpressionHandler.SpreadsheetNodes;
 
-import java.util.ArrayList;
+import Spreadsheet.Spreadsheet;
 
 public class OperatorNode implements Node {
     private final String operator;
@@ -19,12 +19,12 @@ public class OperatorNode implements Node {
         }
     }
 
-    public double getValue(){
+    public double getValue(Spreadsheet spreadsheet){
         return switch (operator) {
-            case "+" -> left.getValue() + right.getValue();
-            case "-" -> left.getValue() - right.getValue();
-            case "*" -> left.getValue() * right.getValue();
-            case "/" -> left.getValue() / right.getValue();
+            case "+" -> left.getValue(spreadsheet) + right.getValue(spreadsheet);
+            case "-" -> left.getValue(spreadsheet) - right.getValue(spreadsheet);
+            case "*" -> left.getValue(spreadsheet) * right.getValue(spreadsheet);
+            case "/" -> left.getValue(spreadsheet) / right.getValue(spreadsheet);
             default -> throw new IllegalArgumentException();
         };
     }

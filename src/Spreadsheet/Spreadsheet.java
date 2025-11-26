@@ -12,7 +12,7 @@ public class Spreadsheet{
 
     Spreadsheet(){
         this.structure = new DoubleSkipListMap();
-        structure.getRange("A5","C20");
+        //structure.getRange("A5","C20");
     }
 
     public void import_S2V(String path) throws IOException {
