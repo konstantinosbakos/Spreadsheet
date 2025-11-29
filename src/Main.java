@@ -43,6 +43,8 @@ At the end of this file you can find a command list to enter to the program exec
                  [B3](TOTAL) [C3](=A1+B1)
 
 TODO: Guard implementation for Cell Content and Coordinates.
+TODO: Recreate ghost nodes if the creation of another node in their place fails, probably through update calculation
+      in formulas.
  */
 
 public class Main{
@@ -175,5 +177,22 @@ C3
 ex.s2v
 
 7
+
+-------
+
+4
+A1
+=A2
+
+4
+A2
+=A3
+
+4
+A3
+=A1
+
+3
+A3
 
  */

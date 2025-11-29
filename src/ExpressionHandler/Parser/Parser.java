@@ -136,4 +136,18 @@ public class Parser {
 
         return stack.pop();
     }
+
+    public List<String> getCellReferences(String expression) {
+        List<String> cellReferences = new ArrayList<>();
+
+        List<Token> tokens = Tokenizer.tokenize(expression);
+
+        for(Token token : tokens) {
+            if (token.getType() == TokenType.CELL) {
+                cellReferences.add(token.getText());
+            }
+        }
+
+        return cellReferences;
+    }
 }

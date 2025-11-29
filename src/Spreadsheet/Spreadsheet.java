@@ -4,6 +4,7 @@ import SpreadsheetCell.Cell;
 import DataStructure.DataStructure;
 import DataStructure.DoubleSkipListMap;
 import SpreadsheetCell.FormulaCell;
+import SpreadsheetCell.GhostCell;
 
 import java.io.*;
 import java.util.*;
@@ -77,15 +78,35 @@ public class Spreadsheet{
         }
     }
 
-    public Cell getCell(String coords){
-        return structure.getCell(coords);
+    public Cell getCell(String coords, String callType){
+        if(callType.equals("internal")){
+            return structure.getCell(coords);
+        }
+        else{
+            Cell cell = structure.getCell(coords);
+
+            if(cell instanceof GhostCell){
+                return null;
+            }
+            else{
+                return cell;
+            }
+        }
     }
 
     public Cell setCell(String coords, String content){
         Cell newCell = structure.setCell(coords, content);
 
         if(newCell instanceof FormulaCell){
-            ((FormulaCell)newCell).calculateFormula(this);
+            boolean isCreated = ((FormulaCell)newCell).calculateFormula(this);
+
+            System.out.println(isCreated);
+
+            if(!isCreated){
+                this.emptyCell(coords);
+
+                return null;
+            }
         }
 
         return newCell;

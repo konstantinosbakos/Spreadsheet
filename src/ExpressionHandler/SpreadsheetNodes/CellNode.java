@@ -10,6 +10,6 @@ public class CellNode implements Node {
     }
 
     public double getValue(Spreadsheet spreadsheet){
-        return spreadsheet.getCell(coords).getCellValue();
+        return spreadsheet.getCell(coords,"internal").getCellValue();
     }
 }

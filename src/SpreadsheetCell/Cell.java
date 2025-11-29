@@ -9,19 +9,15 @@ public abstract class Cell{
     private final String col;
     private final String row;
 
-    protected List<Cell> precedents;
-    protected List<Cell> dependents;
+    protected List<Cell> upstream;
+    protected List<Cell> downstream;
 
     Cell(String col, String row){
         this.col = col;
         this.row = row;
 
-        precedents = new ArrayList<>();
-        dependents = new ArrayList<>();
-    }
-
-    public void updateDependents(List<Cell> dependents){
-        this.dependents = dependents;
+        upstream = new ArrayList<>();
+        downstream = new ArrayList<>();
     }
 
     public Double getDoubleValue(){
@@ -50,21 +46,38 @@ public abstract class Cell{
         return content;
     }
 
-    public Boolean addPrecedent(Cell precedent){
-        return precedents.add(precedent);
+    public Boolean addUpstream(Cell upstreamCell){
+        return upstream.add(upstreamCell);
     }
 
-    public Boolean removePrecedent(Cell precedent){
-        return precedents.remove(precedent);
+    public Boolean removeUpstream(Cell upstreamCell){
+        return upstream.remove(upstreamCell);
     }
 
-    public Boolean addDependent(Cell dependent){
-        return dependents.add(dependent);
+    public Boolean addDownstream(Cell downstreamCell){
+        return downstream.add(downstreamCell);
     }
 
-    public Boolean removeDependent(Cell dependent){
-        return dependents.remove(dependent);
+    public Boolean removeDownstream(Cell downstreamCell){
+        return downstream.remove(downstreamCell);
     }
+
+    public List<Cell> getUpstream(){
+        return upstream;
+    }
+
+    public List<Cell> getDownstream(){
+        return downstream;
+    }
+
+    public void setUpstream(List<Cell> upstream){
+        this.upstream = upstream;
+    }
+
+    public void setDownstream(List<Cell> downstream){
+        this.downstream = downstream;
+    }
+
 
     public abstract String getCellContent();
     public abstract Boolean setCellContent(String content);

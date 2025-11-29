@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.NoSuchElementException;
 
-public class MaxNode extends Function {
+public class MaxNode extends FunctionNode {
     public MaxNode(ArrayList<Node> children) {
         super(children);
     }

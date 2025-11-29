@@ -4,7 +4,7 @@ import Spreadsheet.Spreadsheet;
 
 import java.util.ArrayList;
 
-public class SumNode extends Function {
+public class SumNode extends FunctionNode {
     public SumNode(ArrayList<Node> children) {
         super(children);
     }

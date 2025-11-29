@@ -127,18 +127,35 @@ public abstract class DataStructure {
         String[] split_coords = splitCoords(coords);
         String col = split_coords[0];
         String row = split_coords[1];
+
         boolean isNumber  = true;
         boolean isFormula = true;
+        boolean isGhost   = true;
 
         try{Double.parseDouble(content);}
         catch(NumberFormatException _){isNumber = false;}
 
-        if(content.charAt(0) != '='){
+        if(content.length() <= 1){
+            isGhost   = false;
             isFormula = false;
+        }
+        else{
+            if(content.charAt(0) != '=' || content.charAt(1) != '='){
+                isGhost   = false;
+            }
+
+            if(content.charAt(0) != '=' || (content.charAt(0) == '=' && isGhost)){
+                isFormula = false;
+            }
+
         }
 
         if(isFormula){
             newCell = new FormulaCell(col, row);
+        }
+        else if(isGhost){
+            content = "0";
+            newCell = new GhostCell(col, row);
         }
         else if(isNumber){
             newCell = new NumberCell(col, row);

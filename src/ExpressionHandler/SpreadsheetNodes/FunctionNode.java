@@ -2,10 +2,10 @@ package ExpressionHandler.SpreadsheetNodes;
 
 import java.util.ArrayList;
 
-public abstract class Function implements Node {
+public abstract class FunctionNode implements Node {
     protected final ArrayList<Node> children;
 
-    public Function(ArrayList<Node> children) {
+    public FunctionNode(ArrayList<Node> children) {
         this.children = children;
     }
 }

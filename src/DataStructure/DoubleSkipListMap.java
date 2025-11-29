@@ -44,22 +44,22 @@ public class DoubleSkipListMap extends DataStructure {
         String col = split_coords[0];
         String row = split_coords[1];
 
-        ConcurrentSkipListMap<String, Cell> rowList = colMap.get(col);
-        ConcurrentSkipListMap<String, Cell> colList = rowMap.get(row);
+        ConcurrentSkipListMap<String, Cell> rowList = rowMap.get(row);
+        ConcurrentSkipListMap<String, Cell> colList = colMap.get(col);
 
-        if(colList != null){
-            colList.remove(row);
+        if (rowList != null) {
+            rowList.remove(col);
 
-            if(colList.isEmpty()){
-                colMap.remove(col);
+            if (rowList.isEmpty()) {
+                rowMap.remove(row);
             }
         }
 
-        if(rowList != null){
-            rowList.remove(col);
+        if (colList != null) {
+            colList.remove(row);
 
-            if(rowList.isEmpty()){
-                rowMap.remove(row);
+            if (colList.isEmpty()) {
+                colMap.remove(col);
             }
         }
     }
@@ -70,6 +70,15 @@ public class DoubleSkipListMap extends DataStructure {
 
         if(newCell == null){
             return null;
+        }
+
+        Cell existingCell = this.getCell(coords);
+
+        if(existingCell != null){
+            newCell.setUpstream(existingCell.getUpstream());
+            newCell.setDownstream(existingCell.getDownstream());
+
+            this.emptyCell(coords);
         }
 
         ConcurrentSkipListMap<String, Cell> colList = colMap.computeIfAbsent(

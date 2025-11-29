@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.NoSuchElementException;
 
-public class MinNode extends Function {
+public class MinNode extends FunctionNode {
     public MinNode(ArrayList<Node> children) {
         super(children);
     }

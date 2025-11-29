@@ -5,7 +5,7 @@ import Spreadsheet.Spreadsheet;
 import java.util.ArrayList;
 import java.util.NoSuchElementException;
 
-public class AverageNode extends Function {
+public class AverageNode extends FunctionNode {
     public AverageNode(ArrayList<Node> children) {
         super(children);
     }
