@@ -1,6 +1,6 @@
 package Spreadsheet;
 
-import Cell.Cell;
+import SpreadsheetCell.Cell;
 
 import java.io.IOException;
 

@@ -1,4 +1,4 @@
-package Cell;
+package SpreadsheetCell;
 
 import java.util.ArrayList;
 import java.util.List;

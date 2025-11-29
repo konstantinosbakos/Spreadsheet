@@ -1,9 +1,10 @@
 //TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
 // click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
-import Cell.Cell;
+import SpreadsheetCell.Cell;
 import ExpressionHandler.Tokenizer.Token;
 import ExpressionHandler.Tokenizer.Tokenizer;
 import Spreadsheet.API;
+import SpreadsheetCell.FormulaCell;
 
 import java.io.IOException;
 import java.util.List;
@@ -42,9 +43,6 @@ At the end of this file you can find a command list to enter to the program exec
                  [B3](TOTAL) [C3](=A1+B1)
 
 TODO: Guard implementation for Cell Content and Coordinates.
-TODO: Insert different cell types with Import (I did not implement this because of
-      some complications, but I will do so next week when the project is a bit more
-      fleshed out.
  */
 
 public class Main{
@@ -55,47 +53,18 @@ public class Main{
         System.out.println("|> 3: Get the value of a cell.| ");
         System.out.println("|> 4: Set the value of a cell.| ");
         System.out.println("|> 5: Empty a cell.           | ");
-        System.out.println("|> 6: Print the Spreadsheet.  | ");
+        System.out.println("|> 6: Print the Spreadsheet.  | "); //Not working.
         System.out.println("|> 7: Exit Program.           | ");
         System.out.println("\\~~~~~~~~~~~~~~~~~~~~~~~~~~~~~/");
         System.out.print  ("> ");
     }
 
-    public static String getCellType(Cell cell){
-        return (cell == null) ? null : cell.getClass().getSimpleName();
-    }
-
-    public static double getCellValue(Cell cell){
-        return (cell == null) ? 0.0 : cell.getCellValue();
-    }
-
-    public static boolean isBalancedParentheses(String[] tokens){
-        int leftParentheses = 0;
-        int rightParentheses = 0;
-
-        for (String token : tokens) {
-            if (token.equals("(")) {
-                leftParentheses++;
-            } else if (token.equals(")")) {
-                rightParentheses++;
-            }
-        }
-
-        return (leftParentheses == rightParentheses);
-    }
-
     public static void main(String[] args) throws IOException{
-        API spreadsheetController = new API();
-        //Cell _ = spreadsheetController.editCell("Text", "B1", "5");
-        String demoFormula = "=(1+-A1*-3/4*(B1)+(4*4*SUM(A1:G1)))";
-        List<Token> tokenized = Tokenizer.tokenize(demoFormula);
-        System.out.println("`````");
-        System.out.println(tokenized);
-        System.out.println("`````");
-
         int     choice = 0;
         boolean exit   = false;
         Scanner sc     = new Scanner(System.in);
+
+        API spreadsheetController = new API();
 
         while(!exit){
             instructions();
@@ -133,6 +102,10 @@ public class Main{
 
                     if(retrievedCell != null){
                         System.out.println("Cell Content: " + retrievedCell.getStringContent());
+
+                        if(retrievedCell instanceof FormulaCell){
+                            System.out.println("Cell Value: " + retrievedCell.getCellValue());
+                        }
                     }
                     else {
                         System.out.println("Cell not found.");

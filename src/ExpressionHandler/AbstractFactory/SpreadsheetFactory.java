@@ -8,13 +8,14 @@ import java.util.ArrayList;
 public class SpreadsheetFactory implements AbstractFactory {
 
     @Override
-    public AbstractNode makeConstant(String content) { //AbstractNode
+    public AbstractNode makeConstant(String content) {
         try {
             double value = Double.parseDouble(content);
             return new ConstantNode(value);
         } catch (NumberFormatException e) {
             throw new RuntimeException("Invalid constant number: " + content, e);
-        }    }
+        }
+    }
 
     @Override
     public AbstractNode makeCell(String content) {

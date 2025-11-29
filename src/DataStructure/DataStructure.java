@@ -1,6 +1,6 @@
 package DataStructure;
 
-import Cell.*;
+import SpreadsheetCell.*;
 import java.util.ArrayList;
 import java.util.List;
 

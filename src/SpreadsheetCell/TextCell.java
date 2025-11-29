@@ -1,4 +1,4 @@
-package Cell;
+package SpreadsheetCell;
 
 public class TextCell extends Cell{
     public TextCell(String col, String row) {

@@ -1,4 +1,4 @@
-package Cell;
+package SpreadsheetCell;
 
 public class NumberCell extends Cell{
     double value;

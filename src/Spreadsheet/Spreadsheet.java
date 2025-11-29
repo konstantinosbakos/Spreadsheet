@@ -1,8 +1,9 @@
 package Spreadsheet;
 
-import Cell.Cell;
+import SpreadsheetCell.Cell;
 import DataStructure.DataStructure;
 import DataStructure.DoubleSkipListMap;
+import SpreadsheetCell.FormulaCell;
 
 import java.io.*;
 import java.util.*;
@@ -81,7 +82,13 @@ public class Spreadsheet{
     }
 
     public Cell setCell(String coords, String content){
-        return structure.setCell(coords, content);
+        Cell newCell = structure.setCell(coords, content);
+
+        if(newCell instanceof FormulaCell){
+            ((FormulaCell)newCell).calculateFormula(this);
+        }
+
+        return newCell;
     }
 
     public void emptyCell(String coords){

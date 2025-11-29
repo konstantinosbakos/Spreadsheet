@@ -1,6 +1,6 @@
 package DataStructure;
 
-import Cell.*;
+import SpreadsheetCell.*;
 import java.util.*;
 import java.util.concurrent.ConcurrentSkipListMap;
 
@@ -35,7 +35,8 @@ public class DoubleSkipListMap extends DataStructure {
         }
         else{
             return cellCol.get(row);
-        }    }
+        }
+    }
 
     @Override
     public void emptyCell(String coords) {

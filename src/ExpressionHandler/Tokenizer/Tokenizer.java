@@ -17,7 +17,7 @@ public class Tokenizer {
     );
 
     boolean isUnaryMinus(Token prev, Token cur) {
-        return cur.type == TokenType.OPERATOR && cur.value.equals("-") &&
+        return cur.type == TokenType.OPERATOR && cur.getText().equals("-") &&
                 (prev == null ||
                         prev.type == TokenType.OPERATOR ||
                         prev.type == TokenType.LPAREN);
@@ -66,7 +66,7 @@ public class Tokenizer {
 
     public static String[] tokenizedValues(String formula) {
         return tokenize(formula).stream()
-                .map(token -> token.value)
+                .map(Token::getText)
                 .toList().toArray(new String[0]);
     }
 }
