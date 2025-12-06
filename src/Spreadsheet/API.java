@@ -20,7 +20,7 @@ public class API {
     }
 
     public Cell getCell(String coords){
-        return spreadsheet.getCell(coords,"external");
+        return spreadsheet.getCell(coords);
     };
 
     public Cell setCell(String coords, String content){

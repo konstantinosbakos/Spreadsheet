@@ -1,14 +1,10 @@
 //TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
 // click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
-import SpreadsheetCell.Cell;
-import ExpressionHandler.Tokenizer.Token;
-import ExpressionHandler.Tokenizer.Tokenizer;
 import Spreadsheet.API;
-import SpreadsheetCell.FormulaCell;
+import SpreadsheetCell.Cell;
 
-import java.io.IOException;
-import java.util.List;
 import java.util.Scanner;
+import java.io.IOException;
 
 /*
 ~~IMPORTANT INFORMATION~~
@@ -103,14 +99,17 @@ public class Main{
                     Cell retrievedCell = spreadsheetController.getCell(coords);
 
                     if(retrievedCell != null){
-                        System.out.println("Cell Content: " + retrievedCell.getStringContent());
+                        double value   = retrievedCell.getCellValue();
+                        String content = retrievedCell.getStringContent();
 
-                        if(retrievedCell instanceof FormulaCell){
-                            System.out.println("Cell Value: " + retrievedCell.getCellValue());
+                        System.out.println("Cell Content: " + content);
+
+                        if(content.charAt(0) == '='){
+                            System.out.println("Cell Value: " + value);
                         }
                     }
                     else {
-                        System.out.println("Cell not found.");
+                        System.out.println("Cell Content: 0");
                     }
                 }
                 case 4 -> {
@@ -122,8 +121,7 @@ public class Main{
                     Cell newCell = spreadsheetController.setCell(coords, content);
 
                     if(newCell != null){
-                        System.out.println("Cell [" + newCell.getCoordinates() + "] created \n " +
-                                "with content: " + newCell.getStringContent());
+                        System.out.println("Cell [" + newCell.getCoordinates() + "] created.");
                     }
                 }
                 case 5 -> {
@@ -133,7 +131,7 @@ public class Main{
                     spreadsheetController.emptyCell(coords);
                 }
                 case 6 -> {
-                    spreadsheetController.printSpreadsheet();
+                    //spreadsheetController.printSpreadsheet();
                 }
                 case 7 -> {
                     exit = true;

@@ -78,42 +78,103 @@ public class Spreadsheet{
         }
     }
 
-    public Cell getCell(String coords, String callType){
-        if(callType.equals("internal")){
-            return structure.getCell(coords);
+    public Cell getCell(String coords){
+        if(structure.getCell(coords) != null) {
+            System.out.println(structure.getCell(coords).getUpstream());
+            System.out.println(structure.getCell(coords).getDownstream());
         }
-        else{
-            Cell cell = structure.getCell(coords);
 
-            if(cell instanceof GhostCell){
-                return null;
+        return structure.getCell(coords);
+    }
+
+    private int calculateNewCellFormula(Cell newCell){
+        if(newCell instanceof FormulaCell){//change it to if first elem is '='?
+            if(((FormulaCell)newCell).calculateFormula(this)){
+                return 1;
             }
             else{
-                return cell;
+                return -1;
             }
         }
+
+        return 0;
     }
 
     public Cell setCell(String coords, String content){
-        Cell newCell = structure.setCell(coords, content);
+        Cell newCell      = structure.createCell(coords, content);
+        Cell existingCell = this.getCell(coords);
 
-        if(newCell instanceof FormulaCell){
-            boolean isCreated = ((FormulaCell)newCell).calculateFormula(this);
+        if(newCell == null){
+            return null;
+        }
+        else if(existingCell != null){
+            if(!existingCell.getUpstream().isEmpty()){
+                newCell.setUpstream(existingCell.getUpstream());
+//                newCell.setDownstream(existingCell.getDownstream());
 
-            System.out.println(isCreated);
+                int isUpdated = calculateNewCellFormula(newCell);
 
-            if(!isCreated){
-                this.emptyCell(coords);
+                if(isUpdated == -1){
+                    return null;
+                }
 
+                structure.emptyCell(coords);
+                structure.setCell(newCell);
+
+                if(isUpdated == 0){
+                    newCell.updateUpstream(this);
+                }
+            }
+            else{
+                structure.emptyCell(coords);
+                structure.setCell(newCell);
+            }
+
+            return newCell;
+        }
+        else{
+            int isUpdated = calculateNewCellFormula(newCell);
+
+            if(isUpdated == -1){
                 return null;
             }
-        }
 
-        return newCell;
+            return structure.setCell(newCell);
+        }
     }
 
     public void emptyCell(String coords){
-        structure.emptyCell(coords);
+        Cell ghostCell    = null;
+        Cell existingCell = structure.getCell(coords);
+
+        if(existingCell == null){
+            return;
+        }
+
+        if(!existingCell.getDownstream().isEmpty()){
+            for(Cell downstreamCell : existingCell.getDownstream()){
+                downstreamCell.removeUpstream((FormulaCell)existingCell);
+            }
+        }
+
+        if(!existingCell.getUpstream().isEmpty()){
+            ghostCell = structure.createCell(coords, "==0");
+
+            if(ghostCell == null){
+                return;
+            }
+            else{
+                ghostCell.setUpstream(existingCell.getUpstream());
+            }
+
+            structure.emptyCell(coords);
+            structure.setCell(ghostCell);
+
+            ghostCell.updateUpstream(this);
+        }
+        else{
+            structure.emptyCell(coords);
+        }
     }
 
     public void printSpreadsheet(){

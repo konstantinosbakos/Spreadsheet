@@ -33,7 +33,6 @@ public class Tokenizer {
         int pos = 0;
 
         while (pos < formula.length()) {
-            // skip whitespace
             while (pos < formula.length() && Character.isWhitespace(formula.charAt(pos))) pos++;
 
             Matcher matcher = TOKEN_PATTERN.matcher(formula.substring(pos));

@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public abstract class DataStructure {
-    abstract Cell setCell(String coords, String content);
+    abstract Cell setCell(Cell newCell);
     abstract Cell getCell(String coords);
     abstract void emptyCell(String coords);
 
@@ -121,7 +121,7 @@ public abstract class DataStructure {
         return new String[]{col, row};
     }
 
-    protected Cell createCell(String coords, String content){
+    public Cell createCell(String coords, String content){
         Cell newCell;
 
         String[] split_coords = splitCoords(coords);
@@ -166,5 +166,4 @@ public abstract class DataStructure {
 
         return newCell.setCellContent(content) ? newCell : null;
     }
-
 }

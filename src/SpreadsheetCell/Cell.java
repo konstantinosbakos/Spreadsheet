@@ -1,7 +1,10 @@
 package SpreadsheetCell;
 
+import Spreadsheet.Spreadsheet;
+
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public abstract class Cell{
     protected String content;
@@ -9,8 +12,8 @@ public abstract class Cell{
     private final String col;
     private final String row;
 
-    protected List<Cell> upstream;
     protected List<Cell> downstream;
+    protected List<FormulaCell> upstream;
 
     Cell(String col, String row){
         this.col = col;
@@ -46,11 +49,22 @@ public abstract class Cell{
         return content;
     }
 
-    public Boolean addUpstream(Cell upstreamCell){
-        return upstream.add(upstreamCell);
+    public Boolean addUpstream(FormulaCell upstreamCell){
+        if(upstream.contains(upstreamCell)){
+            return false;
+        }
+        else{
+            return upstream.add(upstreamCell);
+        }
     }
 
-    public Boolean removeUpstream(Cell upstreamCell){
+    public void updateUpstream(Spreadsheet spreadsheet){
+        for(FormulaCell upstreamCell : upstream){
+            upstreamCell.calculateFormula(spreadsheet);
+        }
+    }
+
+    public Boolean removeUpstream(FormulaCell upstreamCell){
         return upstream.remove(upstreamCell);
     }
 
@@ -62,7 +76,7 @@ public abstract class Cell{
         return downstream.remove(downstreamCell);
     }
 
-    public List<Cell> getUpstream(){
+    public List<FormulaCell> getUpstream(){
         return upstream;
     }
 
@@ -70,16 +84,34 @@ public abstract class Cell{
         return downstream;
     }
 
-    public void setUpstream(List<Cell> upstream){
-        this.upstream = upstream;
+    public void setUpstream(List<FormulaCell> upstream){
+        this.upstream = new ArrayList<>(upstream);
     }
 
     public void setDownstream(List<Cell> downstream){
-        this.downstream = downstream;
+        this.downstream = new ArrayList<>(downstream);
     }
 
 
     public abstract String getCellContent();
     public abstract Boolean setCellContent(String content);
     public abstract double getCellValue();
+
+    @Override
+    public boolean equals(Object object) {
+        if (this == object){
+            return true;
+        }
+
+        if (!(object instanceof Cell other)){
+            return false;
+        }
+
+        return col.equals(other.getCol()) && row.equals(other.getRow());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(col, row);
+    }
 }

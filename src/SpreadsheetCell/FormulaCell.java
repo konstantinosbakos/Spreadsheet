@@ -6,10 +6,7 @@ import ExpressionHandler.Parser.Parser;
 import ExpressionHandler.SpreadsheetNodes.Node;
 import Spreadsheet.Spreadsheet;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 public class FormulaCell extends Cell{
     private double value;
@@ -45,9 +42,9 @@ public class FormulaCell extends Cell{
     }
 
     private void internalCalculateFormula(Spreadsheet spreadsheet){
-        this.setReferences(spreadsheet);
+        boolean refIsSet = this.setReferences(spreadsheet);
 
-        if(hasCycle()){
+        if(hasCycle() || !refIsSet){
             throw new IllegalStateException(
                     "Circular reference detected in cell " + this.getCol() + this.getRow() + "."
             );
@@ -65,28 +62,41 @@ public class FormulaCell extends Cell{
             return false;
         }
 
+        if(!upstream.isEmpty()){
+            for(FormulaCell upstreamCell : upstream){
+                upstreamCell.calculateFormula(spreadsheet);
+            }
+        }
+
         return true;
     }
 
-    private void setReferences(Spreadsheet spreadsheet){
+    private boolean setReferences(Spreadsheet spreadsheet){
         List<String> references = parser.getCellReferences(content);
 
         this.downstream.clear();
 
         for(String coords : references){
-            Cell cell =  spreadsheet.getCell(coords,"internal");
+            Cell cell =  spreadsheet.getCell(coords);
 
-            if(cell != null){
+            if(cell != null && !cell.equals(this)){
                 cell.addUpstream(this);
                 this.addDownstream(cell);
             }
-            else{
+            else if(cell == null){
+                if(Objects.equals(coords, this.getCol() + this.getRow())){
+                    return false;
+                }
+
                 cell = spreadsheet.setCell(coords,"==0");
 
                 cell.addUpstream(this);
-                this.addDownstream(spreadsheet.getCell(coords,"internal"));
+                this.addDownstream(spreadsheet.getCell(coords));
+
             }
         }
+
+        return true;
     }
 
     public boolean hasCycle() {

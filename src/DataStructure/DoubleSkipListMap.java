@@ -1,5 +1,6 @@
 package DataStructure;
 
+import Spreadsheet.Spreadsheet;
 import SpreadsheetCell.*;
 import java.util.*;
 import java.util.concurrent.ConcurrentSkipListMap;
@@ -44,6 +45,12 @@ public class DoubleSkipListMap extends DataStructure {
         String col = split_coords[0];
         String row = split_coords[1];
 
+        Cell retrievedCell = getCell(coords);
+
+        if(retrievedCell == null){
+            return;
+        }
+
         ConcurrentSkipListMap<String, Cell> rowList = rowMap.get(row);
         ConcurrentSkipListMap<String, Cell> colList = colMap.get(col);
 
@@ -65,22 +72,7 @@ public class DoubleSkipListMap extends DataStructure {
     }
 
     @Override
-    public Cell setCell(String coords, String content) {
-        Cell newCell = createCell(coords, content);
-
-        if(newCell == null){
-            return null;
-        }
-
-        Cell existingCell = this.getCell(coords);
-
-        if(existingCell != null){
-            newCell.setUpstream(existingCell.getUpstream());
-            newCell.setDownstream(existingCell.getDownstream());
-
-            this.emptyCell(coords);
-        }
-
+    public Cell setCell(Cell newCell) {
         ConcurrentSkipListMap<String, Cell> colList = colMap.computeIfAbsent(
                 newCell.getCol(), _ -> new ConcurrentSkipListMap<>());
 
